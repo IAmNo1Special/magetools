@@ -50,3 +50,11 @@ class TestGrimorium:
     async def test_uninitialized_call_raises(self, grim):
         with pytest.raises(RuntimeError):
             grim.discover_grimoriums("test")
+
+    async def test_list_spells(self, grim):
+        grim._initialized = True
+        grim.spell_sync.registry = {"spell1": lambda: None, "spell2": lambda: None}
+
+        result = await grim.list_spells()
+        assert result["status"] == "success"
+        assert sorted(result["spells"]) == ["spell1", "spell2"]
