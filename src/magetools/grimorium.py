@@ -131,8 +131,6 @@ class Grimorium(BaseToolset):
             strict_mode=self._strict_mode,
         )
         self.spell_sync.sync_spells()
-        # Generate/Sync metadata summaries synchronously
-        self.spell_sync.sync_grimoriums_metadata()
         self._initialized = True
         logger.debug("Grimorium initialized successfully (sync).")
 
