@@ -314,9 +314,18 @@ class Grimorium(BaseToolset):
 
     async def list_spells(self) -> dict[str, Any]:
         """Return the list of spells provided by this toolset."""
+        self._check_initialized()
+
+        # Filter spells based on access permissions
+        allowed_spells = [
+            name
+            for name in self.spell_sync.registry.keys()
+            if self.spell_sync.validate_spell_access(name)
+        ]
+
         return {
             "status": "success",
-            "spells": list(self.spell_sync.registry.keys()),
+            "spells": allowed_spells,
         }
 
     async def get_tools(
