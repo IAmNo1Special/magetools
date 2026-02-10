@@ -316,12 +316,32 @@ class Grimorium(BaseToolset):
         """Return the list of spells provided by this toolset."""
         self._check_initialized()
 
-        # Filter spells based on access permissions
-        allowed_spells = [
-            name
-            for name in self.spell_sync.registry.keys()
-            if self.spell_sync.validate_spell_access(name)
-        ]
+        # Efficiently determine allowed spells
+        if self.spell_sync.allowed_collections is None:
+            allowed_spells = list(self.spell_sync.registry.keys())
+        else:
+            # Fetch all spell IDs from allowed collections to avoid N*M queries.
+            allowed_spell_ids = set()
+            for coll_name in self.spell_sync.allowed_collections:
+                try:
+                    collection = self.spell_sync.vector_store.get_collection(
+                        name=coll_name,
+                        embedding_function=self.spell_sync.embedding_function,
+                    )
+                    # Use get to fetch all IDs in the collection
+                    result = collection.get(include=[])
+                    if result and result["ids"]:
+                        allowed_spell_ids.update(result["ids"])
+                except Exception as e:
+                    logger.warning(
+                        f"Could not retrieve spells from collection '{coll_name}': {e}"
+                    )
+
+            allowed_spells = [
+                name
+                for name in self.spell_sync.registry.keys()
+                if name in allowed_spell_ids
+            ]
 
         return {
             "status": "success",

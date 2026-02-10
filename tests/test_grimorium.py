@@ -54,14 +54,19 @@ class TestGrimorium:
     async def test_list_spells(self, grim):
         grim._initialized = True
         grim.spell_sync.registry = {"spell1": lambda: None, "spell2": lambda: None}
-        # Mock validate_spell_access to allow spell1 but not spell2
-        grim.spell_sync.validate_spell_access.side_effect = (
-            lambda name: name == "spell1"
-        )
+        grim.spell_sync.allowed_collections = ["allowed_coll"]
+
+        # Mock vector store
+        mock_coll = MagicMock()
+        mock_coll.get.return_value = {"ids": ["spell1"]}
+        grim.spell_sync.vector_store.get_collection.return_value = mock_coll
 
         result = await grim.list_spells()
         assert result["status"] == "success"
         assert result["spells"] == ["spell1"]
+        grim.spell_sync.vector_store.get_collection.assert_called_with(
+            name="allowed_coll", embedding_function=grim.spell_sync.embedding_function
+        )
 
     async def test_list_spells_uninitialized(self, grim):
         with pytest.raises(RuntimeError):
