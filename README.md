@@ -12,8 +12,8 @@ Magetools gives autonomous AI agents scalable access to thousands of tools ("Spe
 
 - **Active Discovery Protocol**: Agents search for capabilities, not specific function names.
 - **Safe by Default**: Strict Mode requires explicit `manifest.json` to load any code.
-- **Auto-Summarization**: Uses Google Gemini to automatically generate technical summaries for your tool collections.
-- **Stale Summary Detection**: Automatically detects code changes via folder hashing and triggers re-summarization.
+- **Auto-Summarization**: Uses Google Gemini to automatically generate technical summaries for your tool collections (Performance optimized: non-blocking).
+- **Stale Summary Detection**: Automatically detects code changes via folder hashing and triggers re-summarization via CLI.
 - **Framework Agnostic**: Works with LangChain, Google ADK, or any custom agent loop.
 - **Graceful Degradation**: Works without API keys using MockProvider (limited functionality).
 
@@ -149,8 +149,8 @@ grimorium = Grimorium(strict_mode=False)
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `GOOGLE_API_KEY` | – | Required for Google GenAI provider |
-| `MAGETOOLS_MODEL` | `gemini-2.5-flash` | LLM model for summaries |
+| `GOOGLE_API_KEY` | – | Required for Google GenAI (can be set in `.env` file) |
+| `MAGETOOLS_MODEL` | `gemini-2.5-flash` | LLM model for technical summaries |
 | `MAGETOOLS_DEBUG` | `false` | Enable debug logging |
 
 ### YAML Configuration
@@ -166,9 +166,9 @@ debug: false
 ## CLI Reference
 
 ```bash
-uv run -m magetools init <directory>  # Generate manifest.json
-uv run -m magetools scan              # Scan and sync spells
-uv run -m magetools --help            # Show help
+uv run -m magetools init <directory>  # Generate manifest.json for a collection
+uv run -m magetools scan              # Scan spells and build metadata summaries
+uv run -m magetools --help            # Show all commands and options
 ```
 
 ## Support
