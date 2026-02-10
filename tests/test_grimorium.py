@@ -50,3 +50,19 @@ class TestGrimorium:
     async def test_uninitialized_call_raises(self, grim):
         with pytest.raises(RuntimeError):
             grim.discover_grimoriums("test")
+
+    async def test_list_spells(self, grim):
+        grim._initialized = True
+        grim.spell_sync.registry = {"spell1": lambda: None, "spell2": lambda: None}
+        # Mock validate_spell_access to allow spell1 but not spell2
+        grim.spell_sync.validate_spell_access.side_effect = (
+            lambda name: name == "spell1"
+        )
+
+        result = await grim.list_spells()
+        assert result["status"] == "success"
+        assert result["spells"] == ["spell1"]
+
+    async def test_list_spells_uninitialized(self, grim):
+        with pytest.raises(RuntimeError):
+            await grim.list_spells()

@@ -101,6 +101,7 @@ class Grimorium(BaseToolset):
         self._discover_grimoriums_tool = FunctionTool(func=self.discover_grimoriums)
         self._discover_spells_tool = FunctionTool(func=self.discover_spells)
         self._execute_spell_tool = FunctionTool(func=self.execute_spell)
+        self._list_spells_tool = FunctionTool(func=self.list_spells)
 
         # Auto-initialize for backwards compatibility
         if auto_initialize:
@@ -311,6 +312,22 @@ class Grimorium(BaseToolset):
                 "message": f"Execution failed: {type(e).__name__}: {str(e)}",
             }
 
+    async def list_spells(self) -> dict[str, Any]:
+        """Return the list of spells provided by this toolset."""
+        self._check_initialized()
+
+        # Filter spells based on access permissions
+        allowed_spells = [
+            name
+            for name in self.spell_sync.registry.keys()
+            if self.spell_sync.validate_spell_access(name)
+        ]
+
+        return {
+            "status": "success",
+            "spells": allowed_spells,
+        }
+
     async def get_tools(
         self, readonly_context: ReadonlyContext | None = None
     ) -> list[BaseTool]:
@@ -319,6 +336,7 @@ class Grimorium(BaseToolset):
             self._discover_grimoriums_tool,
             self._discover_spells_tool,
             self._execute_spell_tool,
+            self._list_spells_tool,
         ]
 
     async def close(self) -> None:
