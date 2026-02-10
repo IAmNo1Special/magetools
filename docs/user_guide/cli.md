@@ -31,4 +31,22 @@ uv run -m magetools scan
 - Discovers all tools in the `.magetools` directory.
 - Verifies manifest validity.
 - Indexes spells into the vector store.
+- **Synchronizes Metadata**: Automatically generates or updates `grimorium_summary.md` files for collections.
 - Reports any failed imports (Quarantine).
+---
+
+## Environment Variables
+
+Magetools supports loading environment variables from a `.env` file in your project root when using the CLI.
+
+### Supporting `.env` Files
+To enable `.env` support, ensure you have `python-dotenv` installed:
+```bash
+pip install python-dotenv
+```
+
+### Key Variables
+| Variable | Description |
+|----------|-------------|
+| `GOOGLE_API_KEY` | Required for Google GenAI providers. |
+| `MAGETOOLS_MODEL` | LLM model used for generating collection summaries. |

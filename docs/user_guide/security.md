@@ -23,3 +23,8 @@ The manifest allows fine-grained control over what tools are exposed:
 
 ## Quarantine
 If a spell file contains syntax errors or fails to load during discovery, it is moved to a virtual **Quarantine**. This prevents a single broken file from crashing the entire system.
+
+## Prompt Injection Protection
+When generating metadata summaries, Magetools takes precautions against Indirect Prompt Injection:
+- **Docstring Sanitization**: Common injection keywords are redacted from tool docstrings before being sent to the LLM.
+- **Trusted Boundaries**: LLM prompts use explicit security delimiters to ensure the model treats tool documentation as data rather than instructions.

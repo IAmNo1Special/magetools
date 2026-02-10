@@ -4,7 +4,8 @@ Magetools is a high-performance framework for **Active Tool Discovery**. It allo
 
 ## 🧙‍♂️ Why Magetools?
 
-- **Active Discovery**: Tools are discovered from the filesystem at runtime, not hardcoded into the agent.
+- **Active Discovery Protocol**: Agents search for capabilities, not specific function names.
+- **Hierarchical Discovery**: Agents can search high-level collection summaries powered by **Auto-Summarization** (Google Gemini).
 - **Strict Security**: Optional "Strict Mode" requires cryptographic manifests for every tool collection.
 - **Provider Agnostic**: Works with any LLM, with built-in optimizations for Google GenAI.
 - **Zero Config**: Drop tools into a folder, and the agent finds them.

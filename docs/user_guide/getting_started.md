@@ -35,12 +35,19 @@ uv add magetools[full]
    uv run -m magetools init .magetools
    ```
 
+4. **Synchronize and Build Summaries**:
+   Generate the vector search index and collection summaries:
+   ```bash
+   uv run -m magetools scan
+   ```
+
 4. **Use it in Python**:
    ```python
    from magetools.grimorium import Grimorium
    import asyncio
 
    async def main():
+       # Google API Key can be set in a .env file
        grim = Grimorium()
        await grim.initialize()
        print(f"Loaded {len(grim.registry)} tools!")

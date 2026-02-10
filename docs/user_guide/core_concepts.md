@@ -11,3 +11,6 @@ Tools are grouped into directories called **Collections**. Each collection can h
 
 ## Active Discovery
 Unlike static tool definitions, Magetools scans for new files and changes at runtime. This allows you to add capabilities to an agent without restarting the process or redeploying code.
+
+## Metadata Summaries
+To optimize discovery in large toolsets, Magetools uses LLMs to generate high-density technical summaries of tool collections. These "Grimorium Summaries" allow agents to perform hierarchical search, identifying relevant collections before searching for individual spells.
