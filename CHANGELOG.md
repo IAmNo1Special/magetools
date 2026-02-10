@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-02-10
+
+### Added
+- **Spells Listing**: Introduced `list_spells` method to `Grimorium` for retrieving all available tools.
+- **Access Control**: Implemented secure filtering in `list_spells` to respect `allowed_collections` restrictions.
+- **Robustness**: Added initialization checks and refined type hinting across core toolset methods.
+- **Updated Tests**: Expanded test suite to cover hierarchical tool discovery and unauthorized access scenarios.
+
 ## [1.0.0] - 2026-02-04
 
 ### Added

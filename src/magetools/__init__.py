@@ -7,7 +7,7 @@ from .spellsync import SpellSync
 # Alias for nicer decorator usage
 spell = register_spell
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __all__ = [
     "Grimorium",
     "SpellSync",
