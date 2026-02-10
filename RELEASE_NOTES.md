@@ -1,37 +1,43 @@
-# Release Notes - Magetools v1.0.0 (MVP)
+# Release Notes - Magetools v1.2.0
 
-We are thrilled to announce the official **v1.0.0** release of **Magetools**! This release marks our transition from a technical preview to a production-ready MVP for AI agent tool discovery.
+We are excited to announce the **v1.2.0** release of **Magetools**! This version represents a major milestone in security, performance, and developer accessibility, making Magetools the most robust solution for hierarchical agentic tool discovery.
 
-## 🚀 Key Features
+## 🌟 What's New in v1.2.0
 
-### 🛡️ Strict Mode by Default
-Security is our top priority. Magetools now operates in **Strict Mode**, requiring an explicit `manifest.json` for any collection of spells. This prevents unauthorized tool execution and allows developers to whitelist/blacklist specific functions.
+### 🧠 Automatic Metadata Synchronization
+Magetools now automatically generates `grimorium_summary.md` files for your tool collections. These high-density technical summaries are powered by Google Gemini and provide agents with the critical context needed to choose the right tools without reading every line of code.
+- **Hierarchical Discovery**: Agents can now search high-level collection summaries before diving into specific spells.
+- **Stale Detection**: Automatic hashing ensures summaries are re-generated whenever you modify your code.
 
-### 🛠️ New CLI Suite
-Managing your "Grimoriums" is now easier with built-in commands:
-- `uv run -m magetools init`: Bootstrap a new collection with a security manifest.
-- `uv run -m magetools scan`: Audit your tools and verify synchronization status.
+### 🛡️ Security Hardening (Anti-Prompt Injection)
+We've significantly hardened our metadata generation path against Indirect Prompt Injection.
+- **Docstring Sanitization**: Docstrings are now sanitized to redact common injection keywords.
+- **Trusted Boundaries**: The LLM prompt now uses explicit security markers and instructions to treat untrusted tool data as raw data only.
 
-### 🧩 Lean & Optional Dependencies
-The core `magetools` package now only depends on `pyyaml`, keeping your distribution light. Advanced features like Google GenAI summaries or ChromaDB vector search are available via extras:
-- `uv add magetools[google]`
-- `uv add magetools[vectordb]`
-- `uv add magetools[full]` (Includes everything)
+### ⚡ Performance Optimizations
+- **Non-blocking Initialization**: We've decoupled metadata generation from the core `Grimorium` constructor. Tool loading is now lightning-fast, and building summaries is deferred to the CLI or explicit sync calls.
+- **Concurrent Async Sync**: Metadata synchronization now supports parallel processing for large collections.
 
-### 🧪 Comprehensive Test Suite
-Achieved 100% logic coverage across all core modules (`adapters`, `config`, `grimorium`, `spellsync`). The suite uses a mocked architecture, ensuring tests run instantly without external API dependencies.
+### 💻 Premium CLI Experience
+The Magetools CLI has received several usability upgrades:
+- **.env Support**: Automatically load your `GOOGLE_API_KEY` from a `.env` file for a smoother local development experience.
+- **Improved Error Reporting**: Clear warnings when optional dependencies (like `python-dotenv`) are missing.
+- **Windows Robustness**: Fixed encoding issues and removed problematic emojis to ensure a smooth experience on Windows terminals.
 
-## 🛠️ Internal Stability
-- **Safer Initialization**: `Grimorium` now handles configuration errors gracefully, allowing agents to boot in a "degraded" state rather than crashing.
-- **Async First**: Full support for `async await` lifecycle hooks for modern agentic frameworks.
-- **Resource Management**: Implemented `BaseToolset.close()` to ensure database connections and AI clients are released properly.
+## 🛠️ Highlights from v1.1.0
+- **Secure Spell Listing**: The new `list_spells` method allows agents to see available tools while respecting your `allowed_collections` security boundaries.
+- **Enhanced Type Hinting**: Improved codebase robustness with comprehensive modern type hints.
 
-## 📦 Getting Started
-Verify your installation with the new scanner:
+## 📦 Getting Started with v1.2.0
+Upgrade your project and rebuild your tool metadata:
 ```bash
+# Update to latest version
+uv add magetools[full]
+
+# Refresh your tool summaries
 uv run -m magetools scan
 ```
 
 ---
 **Full Documentation**: [README.md](./README.md)
-**Changelog**: [CHANGELOG.md](./CHANGELOG.md)
+**Full Changelog**: [CHANGELOG.md](./CHANGELOG.md)
