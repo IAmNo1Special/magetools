@@ -155,6 +155,9 @@ class MockEmbeddingProvider(EmbeddingProviderProtocol):
 class _MockEmbeddingFunction:
     """Mock embedding function that returns zero vectors."""
 
+    def __init__(self):
+        self.name = "mock"
+
     def __call__(self, input: list[str]) -> list[list[float]]:
         """Return zero vectors for compatibility."""
         # ChromaDB expects 768-dim vectors for most models
