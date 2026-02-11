@@ -501,7 +501,7 @@ class SpellSync:
         escaped_docs = [
             doc.replace("END_TOOL_DATA", "END_TOOL_DATA_ESC") for doc in spell_docs
         ]
-        tool_data = "\n---\n".join(spell_docs)[:8000]
+        tool_data = "\n---\n".join(escaped_docs)[:8000]
 
         prompt = f"""
 [SECURITY ADVISORY]
