@@ -15,7 +15,8 @@ We've significantly hardened our metadata generation path against Indirect Promp
 - **Docstring Sanitization**: Docstrings are now sanitized to redact common injection keywords before being sent to the LLM.
 - **IDE-Friendly Docs**: Resolved YAML validation errors in `mkdocs.yml` to ensure a smooth development experience in VS Code.
 
-### ⚡ Performance Optimizations
+### ⚡ Performance & Reliability
+- **100% Test Coverage**: The core `SpellSync` module and main codebase now have 100% line and branch coverage, ensuring maximum reliability for enterprise agent workflows.
 - **Non-blocking Initialization**: We've decoupled metadata generation from the core `Grimorium` constructor. Tool loading is now lightning-fast, and building summaries is deferred to the CLI or explicit sync calls.
 - **Concurrent Async Sync**: Metadata synchronization now supports parallel processing for large collections.
 

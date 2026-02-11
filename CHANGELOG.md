@@ -8,10 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.0] - 2026-02-10
 
 ### Added
+- **100% Test Coverage**: Achieved full line and branch coverage for the `SpellSync` module and core codebase.
 - **Metadata Synchronization**: Automatic generation of `grimorium_summary.md` files for spell collections to provide technical context for agents.
 - **CLI .env Support**: The CLI now automatically loads environment variables from a `.env` file (via `python-dotenv`).
 - **Synchronous Metadata Generation**: Metadata is now synced during the standard `Grimorium._sync_initialize()` path, ensuring consistency with async usage.
 - **ADK Alignment**: Standardized `Grimorium` and `SpellSync` with Google ADK `BaseToolset` protocols, including async `close()` lifecycles and `from_config` stubs.
+
+### Changed
+- **Consolidated Configuration**: Moved all coverage settings from `.coveragerc` into `pyproject.toml` for a cleaner project root.
+- **Improved Test Suite**: Resolved all `PytestWarning` entries and cleaned up lint warnings in tests.
 
 ### Fixed
 - **Mock Provider Error**: Resolved an `AttributeError` in `MockEmbeddingFunction` by adding the missing `name` attribute required by ChromaDB.

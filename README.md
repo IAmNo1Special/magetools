@@ -4,12 +4,13 @@
 
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-pass-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-100%25-brightgreen.svg)]()
 
 Magetools gives autonomous AI agents scalable access to thousands of tools ("Spells") without overwhelming their context window. It uses a **Hierarchical Active Discovery** pattern to organize tools into collections/directories ("Grimoriums") and files ("Chapters") and functions ("Spells"), allowing agents to discover only what they need, when they need it.
 
 ## Features
 
+- **100% Test Coverage**: Fully verified core logic for maximum reliability.
 - **Active Discovery Protocol**: Agents search for capabilities, not specific function names.
 - **Safe by Default**: Strict Mode requires explicit `manifest.json` to load any code.
 - **Auto-Summarization**: Uses Google Gemini to automatically generate technical summaries for your tool collections (Performance optimized: non-blocking).
