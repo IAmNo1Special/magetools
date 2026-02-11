@@ -359,6 +359,25 @@ class Grimorium(BaseToolset):
             self._list_spells_tool,
         ]
 
+    @classmethod
+    def from_config(cls, config: ToolArgsConfig, config_abs_path: str) -> "Grimorium":
+        """Creates a toolset instance from a config.
+
+        This method is required for full ADK integration when loading toolsets
+        declaratively via YAML.
+        """
+        # For now, we return a default instance using MageTools individual discovery logic.
+        # Future enhancement: Map config values to SpellSync root paths.
+        return cls()
+
+    def get_auth_config(self) -> Any:
+        """Standard ADK Hook for providing tool authentication.
+
+        Returning None as Magetools handles credentials via .env or explicitly
+        configured providers.
+        """
+        return None
+
     async def close(self) -> None:
         """Cleanup resources."""
         logger.info("Closing Grimorium toolset...")
