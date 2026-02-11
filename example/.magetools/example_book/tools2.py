@@ -2,10 +2,13 @@ from typing import Any, Dict, Optional
 
 from magetools.spell_registry import register_spell
 
+user_name = """Not currently known. Maybe if you ask, the user will tell
+ you their name. You can the ask the grimorium for a spell to save the user's name."""
+
 
 @register_spell
 async def log_out_fb() -> Dict[str, Any]:
-    """Logs out the currently authenticated user from Facebook..
+    """Logs out the currently authenticated user from Facebook.
 
     This function will terminate the current Facebook session and require
     re-authentication for subsequent Facebook operations.

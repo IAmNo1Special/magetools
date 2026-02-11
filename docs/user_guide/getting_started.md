@@ -1,49 +1,69 @@
-# Getting Started with Magetools
+# Getting Started
 
-## Installation
+Follow these steps to set up Magetools and start building your own autonomous agentic toolsets.
 
-Install the core package:
+---
 
-```bash
-uv add magetools
-```
+## :material-numeric-1-circle: Installation
 
-For full functionality (including Google GenAI and ChromaDB):
+Install the full suite with all recommended providers:
 
 ```bash
 uv add magetools[full]
 ```
 
-## Your First Spellbook (Grimorium)
+> [!TIP]
+> Use `magetools[full]` to automatically include **Google GenAI** for summaries and **ChromaDB** for vector indexing.
 
-1. **Create a tools directory**:
-   ```bash
-   mkdir .magetools
-   ```
+---
 
-2. **Add a "Spell" (Tool)**:
-   Create `.magetools/math_spells.py`:
-   ```python
-   def add_numbers(x: int, y: int) -> int:
-       """Add two numbers together."""
-       return x + y
-   ```
+## :material-numeric-2-circle: Your First Collection
 
-3. **Initialize the Manifest**:
-   Magetools requires a manifest for security:
-   ```bash
-   uv run -m magetools init .magetools
-   ```
+1.  **Create a folder** for your tools:
+    ```bash
+    mkdir .magetools
+    ```
 
-4. **Use it in Python**:
-   ```python
-   from magetools.grimorium import Grimorium
-   import asyncio
+2.  **Add a Spell (Tool)**:
+    Create `.magetools/math.py`:
+    ```python
+    from magetools import spell
 
-   async def main():
-       grim = Grimorium()
-       await grim.initialize()
-       print(f"Loaded {len(grim.registry)} tools!")
+    @spell
+    def add(x: int, y: int) -> int:
+        """Adds two integers for the agent."""
+        return x + y
+    ```
 
-   asyncio.run(main())
-   ```
+3.  **Initialize Security**:
+    ```bash
+    uv run -m magetools init .magetools
+    ```
+
+---
+
+## :material-numeric-3-circle: Sync & Discover
+
+Run the scanner to build your semantic index and technical summaries:
+
+```bash
+uv run -m magetools scan
+```
+
+---
+
+## :material-numeric-4-circle: Run the Agent
+
+```python
+import asyncio
+from magetools import Grimorium
+
+async def main():
+    # .env files are automatically loaded by the CLI
+    grim = Grimorium()
+    await grim.initialize()
+    
+    print(f"🧙‍♂️ Magetools loaded {len(grim.registry)} spells.")
+
+asyncio.run(main())
+```

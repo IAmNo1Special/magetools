@@ -1,14 +1,19 @@
 """Core Grimorium toolset for managing magical spells and their discovery."""
 
+from __future__ import annotations
+
 import asyncio
 import inspect
 import logging
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from google.adk.agents.readonly_context import ReadonlyContext
 from google.adk.tools import BaseTool, FunctionTool, ToolContext
 from google.adk.tools.base_toolset import BaseToolset
+
+if TYPE_CHECKING:
+    from google.adk.tools.tool_configs import ToolArgsConfig
 
 from .config import MageToolsConfig, get_config
 from .prompts import grimorium_usage_guide
@@ -301,9 +306,8 @@ class Grimorium(BaseToolset):
                 "status": "error",
                 "message": f"Failed to call spell. Please check arguments. details: {str(te)}",
             }
-        except BaseException as e:
-            # Catch BaseException to protect the agent from misbehaving tools
-            # This includes KeyboardInterrupt, SystemExit, etc.
+        except Exception as e:
+            # Catch Exception to protect the agent from misbehaving tools
             logger.error(
                 f"Critical error executing spell {spell_name}: {type(e).__name__}: {e}"
             )
@@ -358,6 +362,25 @@ class Grimorium(BaseToolset):
             self._execute_spell_tool,
             self._list_spells_tool,
         ]
+
+    @classmethod
+    def from_config(cls, config: ToolArgsConfig, config_abs_path: str) -> "Grimorium":
+        """Creates a toolset instance from a config.
+
+        This method is required for full ADK integration when loading toolsets
+        declaratively via YAML.
+        """
+        # For now, we return a default instance using MageTools individual discovery logic.
+        # Future enhancement: Map config values to SpellSync root paths.
+        return cls()
+
+    def get_auth_config(self) -> Any:
+        """Standard ADK Hook for providing tool authentication.
+
+        Returning None as Magetools handles credentials via .env or explicitly
+        configured providers.
+        """
+        return None
 
     async def close(self) -> None:
         """Cleanup resources."""

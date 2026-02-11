@@ -63,13 +63,13 @@ def scan_spells() -> None:
     """Scan and sync spells from .magetools directory."""
     from .spellsync import SpellSync, discover_and_load_spells
 
-    print("🔍 Scanning for spells (strict_mode=True)...")
+    print("[Scanning for spells (strict_mode=True)...]")
 
     registry: dict = {}
     discover_and_load_spells(registry=registry)
 
     if not registry:
-        print("\n⚠️  No spells loaded!")
+        print("\n[!] No spells loaded!")
         print("Magetools runs in STRICT MODE by default.")
         print(
             "Ensure your tool folders contain a 'manifest.json' with '\"enabled\": true'."
@@ -78,23 +78,41 @@ def scan_spells() -> None:
         print("  python -m magetools init <path/to/collection>")
         return
 
-    print(f"✅ Found {len(registry)} spell(s):")
+    print(f"[*] Found {len(registry)} spell(s):")
     for name in sorted(registry.keys()):
-        print(f"   • {name}")
+        print(f"   - {name}")
 
     # Sync to vector store
-    print("\n📦 Syncing to vector store...")
+    print("\n[Syncing to vector store...]")
     try:
         spell_sync = SpellSync()
+
+        # Sync individual spells
         spell_sync.sync_spells()
-        print("✅ Sync complete!")
+
+        # Sync collection metadata (generates grimorium_summary.md)
+        print("[Generating collection summaries...]")
+        spell_sync.sync_grimoriums_metadata()
+
+        print("[Sync complete!]")
     except Exception as e:
-        print(f"❌ Sync failed: {e}")
+        print(f"[!] Sync failed: {e}")
         print("   (This may be due to missing google-genai or chromadb)")
 
 
 def main():
     """Main entry point for Magetools CLI."""
+    # Load environment variables from .env if present
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv()
+    except ImportError:
+        print(
+            "[!] Warning: 'python-dotenv' not found. '.env' files will not be loaded."
+        )
+        print("    (Install with 'uv add python-dotenv' to enable this feature)")
+
     parser = argparse.ArgumentParser(
         prog="magetools",
         description="Magetools - Dynamic tool discovery for AI agents",

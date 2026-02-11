@@ -2,12 +2,11 @@ from typing import Any, Dict, Optional
 
 from magetools import spell
 
-user_name = "Not currently known. Maybe if you ask, the user will tell you their name.\nYou can the ask the grimorium for a spell to save the user's name."
-
+from ..example_book.tools2 import user_name
 
 @spell
 async def get_user_location() -> Dict[str, Any]:
-    """Gets the user's current location (modified).
+    """Gets the user's current city and country.
 
     Returns:
         Dict[str, Any]: A dictionary containing location details:
@@ -43,10 +42,10 @@ async def weather_forecast(city: Optional[str] = None) -> Dict[str, Any]:
             - message (str): A summary message.
 
     Example:
-        >>> await weather_forecast("Mountain View")
-        {'success': True, 'data': {'city': 'Mountain View', ...}, 'message': 'The current weather in Mountain View is sunny with a temperature of 72F.'}
+        >>> await weather_forecast("Raleigh")
+        {'success': True, 'data': {'city': 'Raleigh', ...}, 'message': 'The current weather in Raleigh is sunny with a temperature of 72F.'}
         >>> await weather_forecast()
-        {'success': True, 'data': {'city': <users_city>, ...}, 'message': 'The current weather in <users_city> is sunny with a temperature of 72F.'}
+        {'success': True, 'data': {'city': 'Raleigh', ...}, 'message': 'The current weather in Raleigh is sunny with a temperature of 72F.'}
     """
     if city is None:
         result = await get_user_location()

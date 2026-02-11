@@ -1,25 +1,49 @@
 # Security & Strict Mode
 
-Magetools is designed for safe execution of agentic tools.
+Magetools is designed from the ground up to prevent unauthorized code execution by AI agents.
 
-## Strict Mode
-By default, Magetools runs in **Strict Mode**. This means:
-1. Every tool collection MUST have a `manifest.json`.
-2. The manifest must have `"enabled": true`.
-3. Only safe imports are allowed (imports are sanitized).
+---
 
-## The Manifest (`manifest.json`)
-The manifest allows fine-grained control over what tools are exposed:
+## 🛡️ Strict Mode
+
+By default, Magetools runs in **Strict Mode**. This is a safety layer that ensures no code is loaded or executed without explicit developer consent.
+
+> [!IMPORTANT]
+> In Strict Mode, Magetools will ignore any directory that does not contain a valid `manifest.json`.
+
+---
+
+## 📄 The Manifest (`manifest.json`)
+
+The manifest is your control plane for collection-level security.
 
 ```json
 {
   "name": "Math Collection",
   "description": "Basic arithmetic tools",
   "enabled": true,
-  "whitelist": ["add_numbers", "multiply_numbers"],
-  "blacklist": ["secret_function"]
+  "whitelist": ["add_numbers", "multiply_numbers"]
 }
 ```
 
-## Quarantine
-If a spell file contains syntax errors or fails to load during discovery, it is moved to a virtual **Quarantine**. This prevents a single broken file from crashing the entire system.
+- **`enabled`**: Set to `false` to instantly disable a collection.
+- **`whitelist`**: Only functions listed here will be exposed to the agent.
+- **`blacklist`**: Explicitly forbid specific functions, even if they have the `@spell` decorator.
+
+---
+
+## 🧪 Prompt Injection Protection
+
+When generating automated metadata summaries, Magetools defends against **Indirect Prompt Injection**:
+
+1.  **Sanitization**: We redact common "jailbreak" keywords from tool docstrings.
+2.  **Delimitation**: Tool data is wrapped in hardened security markers to prevent the model from following instructions found in docstrings.
+
+---
+
+## 🏥 Quarantine
+
+If a tool file fails to load due to syntax errors or security violations, it is moved to a virtual **Quarantine**. 
+
+> [!WARNING]
+> Tools in quarantine are completely inaccessible to the agent and will trigger a warning in the `magetools scan` report.

@@ -1,5 +1,7 @@
 import os
+from pathlib import Path
 
+import pytest
 import yaml
 
 from magetools.config import MageToolsConfig
@@ -35,3 +37,38 @@ def test_config_paths(tmp_path):
     expected_db = (expected_root / ".chroma_db").resolve()
     assert config.magetools_root == expected_root
     assert config.db_path == expected_db
+
+
+def test_config_invalid_root():
+    from magetools.exceptions import ConfigurationError
+
+    config = MageToolsConfig(
+        root_path=Path("/non/existent/path/that/really/is/not/there")
+    )
+    with pytest.raises(ConfigurationError):
+        config.validate()
+
+
+def test_config_validate_warnings(tmp_path):
+    config = MageToolsConfig(root_path=tmp_path)
+    warnings = config.validate()
+    assert len(warnings) == 1
+    assert "Magetools directory not found" in warnings[0]
+
+
+def test_config_validate_required_error(tmp_path):
+    from magetools.exceptions import ConfigurationError
+
+    config = MageToolsConfig(root_path=tmp_path)
+    with pytest.raises(ConfigurationError):
+        config.validate(require_magetools_dir=True)
+
+
+def test_config_load_error(tmp_path, caplog):
+    config_file = tmp_path / "magetools.yaml"
+    with open(config_file, "w") as f:
+        f.write("invalid: yaml: content: [")
+
+    # The error should be caught and logged
+    MageToolsConfig(root_path=tmp_path)
+    assert "Failed to load config" in caplog.text

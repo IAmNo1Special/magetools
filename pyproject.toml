@@ -1,6 +1,6 @@
 [project]
 name = "magetools"
-version = "1.1.0"
+version = "1.2.0"
 description = "Dynamic tool discovery for AI agents using the MCP-Zero Active Discovery pattern"
 readme = "README.md"
 authors = [
@@ -56,6 +56,7 @@ dev = [
     "mkdocs>=1.6.1",
     "mkdocs-material>=9.7.1",
     "mkdocstrings[python]>=1.0.2",
+    "pytest-cov>=7.0.0",
 ]
 
 [tool.black]
@@ -69,3 +70,14 @@ known_first_party = ["magetools"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["src/magetools"]
+omit = [
+    "src/magetools/__main__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+precision = 2
+fail_under = 100

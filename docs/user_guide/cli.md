@@ -1,34 +1,42 @@
 # CLI Reference
 
-Magetools provides a command-line interface for managing your tool collections.
-
-## `uv run -m magetools init`
-
-Initialize a new tool collection directory.
-
-**Usage:**
-```bash
-uv run -m magetools init <directory>
-```
-
-**What it does:**
-- Scans the directory for Python files.
-- Creates a `manifest.json` file.
-- Enables the collection for Strict Mode.
+The Magetools CLI is your toolkit for managing, auditing, and synchronizing distributed tool collections.
 
 ---
 
-## `uv run -m magetools scan`
+## `magetools init`
+**Bootstrap a new collection.**
 
-Audit your tools and verify synchronization status.
+| Argument | Description |
+|----------|-------------|
+| `<directory>` | Target folder to initialize. |
 
-**Usage:**
-```bash
-uv run -m magetools scan
-```
+**Key Actions:**
+- Scans directory for Python spells.
+- Generates a local `manifest.json`.
+- Prepares the folder for **Strict Mode** loading.
 
-**What it does:**
-- Discovers all tools in the `.magetools` directory.
-- Verifies manifest validity.
-- Indexes spells into the vector store.
-- Reports any failed imports (Quarantine).
+---
+
+## `magetools scan`
+**Audit and Synchronize.**
+
+This is the most critical command for production environments. It performs a deep audit of your tool ecosystem.
+
+**Key Actions:**
+- **Discovery**: Identifies all valid spells in the `.magetools` root.
+- **Security Check**: Verifies manifest integrity and quarantine status.
+- **Semantic Sync**: Indexes spells into the vector database for discovery query support.
+- **Metadata Sync**: Generates technical summaries via LLM if code changes are detected.
+
+---
+
+## 🔧 Environment Variables
+
+Magetools CLI automatically loads configurations from a `.env` file in your project root.
+
+| Variable | Default | Role |
+|----------|---------|------|
+| `GOOGLE_API_KEY` | - | Required for primary embedding/summary providers. |
+| `MAGETOOLS_MODEL` | `gemini-2.5-flash` | The model used for technical auto-summaries. |
+| `MAGETOOLS_DEBUG` | `false` | Enables verbose trace logging for discovery. |
