@@ -497,7 +497,10 @@ class SpellSync:
         self, grimorium_name: str, spell_docs: list[str]
     ) -> str:
         """Uses the AI Provider to generate a high-quality summary of the Grimorium."""
-        # Hardened prompt with explicit boundaries and instructions
+        # Escape boundaries to prevent prompt breakout
+        escaped_docs = [
+            doc.replace("END_TOOL_DATA", "END_TOOL_DATA_ESC") for doc in spell_docs
+        ]
         tool_data = "\n---\n".join(spell_docs)[:8000]
 
         prompt = f"""
