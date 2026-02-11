@@ -91,7 +91,11 @@ class SpellSync:
         """Restore state and re-initialize unpickleable objects."""
         self.__dict__.update(state)
         # Re-initialize
-        db_path = self.config.db_path if self.config else Path(self.MAGETOOLS_ROOT / self.DB_FOLDER_NAME)
+        db_path = (
+            self.config.db_path
+            if self.config
+            else Path(self.MAGETOOLS_ROOT / self.DB_FOLDER_NAME)
+        )
         self.client = chromadb.PersistentClient(path=str(db_path))
         self.vector_store = ChromaVectorStore(path=str(db_path))
         self.embedding_function = self.embedding_provider.get_embedding_function()
