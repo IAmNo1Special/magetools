@@ -111,7 +111,7 @@ def main():
         print(
             "[!] Warning: 'python-dotenv' not found. '.env' files will not be loaded."
         )
-        print("    (Install with 'pip install python-dotenv' to enable this feature)")
+        print("    (Install with 'uv add python-dotenv' to enable this feature)")
 
     parser = argparse.ArgumentParser(
         prog="magetools",
