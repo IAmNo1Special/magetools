@@ -81,6 +81,8 @@ class SpellSync:
         state = self.__dict__.copy()
         if "client" in state:
             del state["client"]
+        if "vector_store" in state:
+            del state["vector_store"]
         if "embedding_function" in state:
             del state["embedding_function"]
         return state
