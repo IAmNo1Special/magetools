@@ -551,7 +551,8 @@ Generate Summary:
             if py_file.name.startswith((".", "_")):
                 continue
             try:
-                # We hash the content to detect functional changes
+                # Hash name and content to detect renaming and functional changes
+                hasher.update(py_file.name.encode())
                 content = py_file.read_bytes()
                 hasher.update(content)
             except Exception:
