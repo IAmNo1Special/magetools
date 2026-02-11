@@ -93,6 +93,8 @@ class SpellSync:
         # Re-initialize
         db_path = self.config.db_path if self.config else Path(self.MAGETOOLS_ROOT / self.DB_FOLDER_NAME)
         self.client = chromadb.PersistentClient(path=str(db_path))
+        self.vector_store = ChromaVectorStore(path=str(db_path))
+        self.embedding_function = self.embedding_provider.get_embedding_function()
 
     def get_grimorium_collection(self, collection_name: str):
         """Get or create a collection for a specific grimorium (folder)."""
