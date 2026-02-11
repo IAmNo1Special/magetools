@@ -53,4 +53,4 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Run tests
-        run: uv run pytest tests/ -v
+        run: uv run pytest --cov=src/magetools --cov-report=term-missing tests/ -v

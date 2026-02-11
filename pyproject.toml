@@ -80,3 +80,4 @@ omit = [
 [tool.coverage.report]
 show_missing = true
 precision = 2
+fail_under = 100
