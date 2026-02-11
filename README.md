@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-pass-brightgreen.svg)]()
 
-Magetools gives autonomous AI agents scalable access to thousands of tools ("Spells") without overwhelming their context window. It uses a **Hierarchical Active Discovery** pattern to organize tools into collections ("Grimoriums") and lets agents discover only what they need, when they need it.
+Magetools gives autonomous AI agents scalable access to thousands of tools ("Spells") without overwhelming their context window. It uses a **Hierarchical Active Discovery** pattern to organize tools into collections/directories ("Grimoriums") and files ("Chapters") and functions ("Spells"), allowing agents to discover only what they need, when they need it.
 
 ## Features
 
@@ -14,7 +14,7 @@ Magetools gives autonomous AI agents scalable access to thousands of tools ("Spe
 - **Safe by Default**: Strict Mode requires explicit `manifest.json` to load any code.
 - **Auto-Summarization**: Uses Google Gemini to automatically generate technical summaries for your tool collections (Performance optimized: non-blocking).
 - **Stale Summary Detection**: Automatically detects code changes via folder hashing and triggers re-summarization via CLI.
-- **Framework Agnostic**: Works with LangChain, Google ADK, or any custom agent loop.
+- **Google ADK Integration**: Works with Google ADK agents with more framework integrations coming soon.
 - **Graceful Degradation**: Works without API keys using MockProvider (limited functionality).
 
 ## Installation
@@ -49,17 +49,22 @@ pip install magetools[full]
 ### Quick Start
 
 ```bash
-# 1. Create a collection folder
+# 1. Create a Grimorium(folder) in the .magetools directory
 mkdir -p .magetools/file_ops
 
-# 2. Initialize with manifest.json (required for Strict Mode)
+# 2. Creates the manifest.json for the provided Grimorium(required for Strict Mode)
 uv run -m magetools init .magetools/file_ops
+
+# 3. Scan the Grimorium for spells(functions)
+# This creates a grimorium_summary.md file with the technical summary of the spells
+# and stores the vector embeddings of the spells in a vector database
+uv run -m magetools scan
 ```
 
 ### Add Spells (Tools)
 
 ```python
-# .magetools/file_ops/files.py
+# .magetools/file_ops/files.py (A Grimorium chapter is just a .py file in a Grimorium.)
 from magetools import spell
 
 @spell
@@ -78,34 +83,34 @@ def read_file(path: str):
 ### Use with an Agent
 
 ```python
-import asyncio
+from google.adk.agents import LlmAgent
 from magetools import Grimorium
 
-async def main():
-    # Initialize (scans .magetools folder and indexes spells)
-    grimorium = Grimorium()
-    
-    try:
-        # Get tools for your agent
-        tools = await grimorium.get_tools()
-        
-        # Use with your agent framework
-        # agent = Agent(tools=tools)
-        # await agent.run("Find and read data.csv")
-    finally:
-        await grimorium.close()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# Initialize (scans .magetools folder and indexes spells)
+grimorium = Grimorium()
+
+# Initialize the root agent
+root_agent = LlmAgent(
+    name="magetools_agent",
+    model="gemini-2.5-flash",
+    description="Agent that uses magetools to discover and execute spells.",
+    instruction=f"""You are an advanced AI assistant with access to magetools.
+    Be helpful, concise, and focus on solving the user's request effectively.
+    {grimorium.usage_guide}""",
+    tools=[grimorium],
+)
+
 ```
 
 ### Agent Discovery Flow
 
-Magetools exposes 3 tools to your agent:
+A Magetools Grimorium exposes 4 tools to your agent:
 
-1. `discover_grimoriums(query)` – Search collection summaries
-2. `discover_spells(grimorium_id, query)` – Search within a collection
+1. `discover_grimoriums(query)` – Search for a grimorium using a query
+2. `discover_spells(grimorium_id, query)` – Search for a spell within a grimorium
 3. `execute_spell(spell_name, arguments)` – Run a spell
+4. `list_spells()` – List the names of all available spells from all linked grimoriums(may remove this soon...)
 
 **Example:**
 
@@ -120,11 +125,11 @@ Magetools exposes 3 tools to your agent:
 
 > ⚠️ **Magetools runs in Strict Mode by default.**
 
-Collections **require** a `manifest.json` file to load any Python code. This prevents accidental execution of arbitrary code.
+Grimoriums **require** a `manifest.json` file to load any Python code. This prevents accidental execution of arbitrary code.
 
 ```bash
-# Enable a collection
-uv run -m magetools init .magetools/my_collection
+# Enable a grimorium
+uv run -m magetools init .magetools/my_grimorium
 ```
 
 **manifest.json example:**
@@ -166,7 +171,7 @@ debug: false
 ## CLI Reference
 
 ```bash
-uv run -m magetools init <directory>  # Generate manifest.json for a collection
+uv run -m magetools init <directory>  # Generate manifest.json for a grimorium
 uv run -m magetools scan              # Scan spells and build metadata summaries
 uv run -m magetools --help            # Show all commands and options
 ```
