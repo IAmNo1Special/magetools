@@ -1,14 +1,19 @@
 """Core Grimorium toolset for managing magical spells and their discovery."""
 
+from __future__ import annotations
+
 import asyncio
 import inspect
 import logging
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from google.adk.agents.readonly_context import ReadonlyContext
 from google.adk.tools import BaseTool, FunctionTool, ToolContext
 from google.adk.tools.base_toolset import BaseToolset
+
+if TYPE_CHECKING:
+    from google.adk.tools.tool_configs import ToolArgsConfig
 
 from .config import MageToolsConfig, get_config
 from .prompts import grimorium_usage_guide
