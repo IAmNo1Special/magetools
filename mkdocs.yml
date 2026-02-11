@@ -7,21 +7,28 @@ repo_name: IAmNo1Special/magetools
 theme:
   name: material
   features:
+    - content.code.annotate
     - content.code.copy
     - content.tooltips
     - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
     - navigation.sections
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.top
-    - navigation.instant
-    - search.suggest
+    - navigation.tracking
     - search.highlight
+    - search.share
+    - search.suggest
     - toc.follow
+    - toc.integrate
   palette:
     # Default to Dark Mode (Super Dark/Slate)
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: deep purple # Magic/Arcane theme
+      primary: deep purple
       accent: deep purple
       toggle:
         icon: material/brightness-4
@@ -43,25 +50,45 @@ plugins:
           paths: [src]
           options:
             docstring_style: google
+            show_root_heading: true
+            show_source: true
 
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - admonition
   - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.magiclink
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
 
 nav:
   - Home: index.md
-  - Guide:
+  - User Guide:
       - Getting Started: user_guide/getting_started.md
       - Core Concepts: user_guide/core_concepts.md
       - Security & Strict Mode: user_guide/security.md
       - CLI Reference: user_guide/cli.md
-  - Reference:
+      - Best Practices: user_guide/best_practices.md
+  - API Reference:
       - Grimorium: reference/grimorium.md
       - SpellSync: reference/spellsync.md
       - Adapters: reference/adapters.md

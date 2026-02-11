@@ -1,16 +1,33 @@
 # Core Concepts
 
-## Grimorium (The Spellbook)
-The `Grimorium` is the central coordinator. It manages the lifecycle of tools, their discovery, and their execution. It acts as a standard ADK `BaseToolset`.
+Magetools is built on the philosophy of **Decentralized Discovery**. Instead of a monolithic tool registry, your tools are treated as first-class citizens of the filesystem.
 
-## Spells (The Tools)
-A "Spell" is simply a Python function. Magetools extracts the name, docstring, and signature to represent the tool to the LLM.
+---
 
-## Collections (The Chapters)
-Tools are grouped into directories called **Collections**. Each collection can have its own `manifest.json` to control permissions and metadata.
+## 📘 Grimorium (The Spellbook)
+The `Grimorium` is the central coordinator of the Magetools framework. It manages the lifecycle of tools, their discovery, and their execution. It implements the standard ADK `BaseToolset` interface, making it drop-in compatible with modern agent frameworks.
 
-## Active Discovery
-Unlike static tool definitions, Magetools scans for new files and changes at runtime. This allows you to add capabilities to an agent without restarting the process or redeploying code.
+---
 
-## Metadata Summaries
-To optimize discovery in large toolsets, Magetools uses LLMs to generate high-density technical summaries of tool collections. These "Grimorium Summaries" allow agents to perform hierarchical search, identifying relevant collections before searching for individual spells.
+## 🪄 Spells (The Tools)
+A **Spell** is a standard Python function decorated with `@spell`. Magetools extracts the name, docstring, and type-hinted signature to represent the tool to the LLM. 
+
+> [!NOTE]
+> High-quality docstrings are critical for semantic discovery.
+
+---
+
+## 📁 Collections (The Chapters)
+Tools are logically grouped into directories called **Collections**. Each collection is a self-contained unit with its own:
+- **`manifest.json`**: Security and permission settings.
+- **`grimorium_summary.md`**: Technical overview for agents.
+
+---
+
+## 🔍 Active Discovery
+Unlike static tool definitions, Magetools scans for new files and edits at runtime. This allows you to hot-swap capabilities in an agent without downtime or redeploys.
+
+---
+
+## 🧠 Metadata Summaries
+To optimize discovery in massive toolsets, Magetools uses LLMs to generate high-density technical summaries. These summaries enable **Hierarchical Search**, allowing agents to find the general "domain" before searching for a specific function.
