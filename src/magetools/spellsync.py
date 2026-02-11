@@ -5,6 +5,7 @@ import importlib.util
 import inspect
 import json
 import logging
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -485,8 +486,6 @@ class SpellSync:
         sanitized = text
         for kw in keywords:
             # Case insensitive replacement
-            import re
-
             sanitized = re.sub(
                 re.escape(kw), "[REDACTED]", sanitized, flags=re.IGNORECASE
             )
