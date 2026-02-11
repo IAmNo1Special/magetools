@@ -306,9 +306,8 @@ class Grimorium(BaseToolset):
                 "status": "error",
                 "message": f"Failed to call spell. Please check arguments. details: {str(te)}",
             }
-        except BaseException as e:
-            # Catch BaseException to protect the agent from misbehaving tools
-            # This includes KeyboardInterrupt, SystemExit, etc.
+        except Exception as e:
+            # Catch Exception to protect the agent from misbehaving tools
             logger.error(
                 f"Critical error executing spell {spell_name}: {type(e).__name__}: {e}"
             )
