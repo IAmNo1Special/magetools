@@ -20,3 +20,10 @@ TODO/
 .adk/
 
 .bvckpvck/
+
+# IDE settings
+.vscode/
+
+# Testing
+.coverage
+.pytest_cache/
