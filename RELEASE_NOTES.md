@@ -9,10 +9,11 @@ Magetools now automatically generates `grimorium_summary.md` files for your tool
 - **Hierarchical Discovery**: Agents can now search high-level collection summaries before diving into specific spells.
 - **Stale Detection**: Automatic hashing ensures summaries are re-generated whenever you modify your code.
 
-### 🛡️ Security Hardening (Anti-Prompt Injection)
-We've significantly hardened our metadata generation path against Indirect Prompt Injection.
-- **Docstring Sanitization**: Docstrings are now sanitized to redact common injection keywords.
-- **Trusted Boundaries**: The LLM prompt now uses explicit security markers and instructions to treat untrusted tool data as raw data only.
+### 🛡️ Security Hardening & ADK Alignment
+We've significantly hardened our metadata generation path against Indirect Prompt Injection and simplified the developer flow.
+- **ADK Source Alignment**: Full adherence to Google ADK `BaseToolset` standards (v0.1.0), including async resource cleanup and declarative configuration stubs.
+- **Docstring Sanitization**: Docstrings are now sanitized to redact common injection keywords before being sent to the LLM.
+- **IDE-Friendly Docs**: Resolved YAML validation errors in `mkdocs.yml` to ensure a smooth development experience in VS Code.
 
 ### ⚡ Performance Optimizations
 - **Non-blocking Initialization**: We've decoupled metadata generation from the core `Grimorium` constructor. Tool loading is now lightning-fast, and building summaries is deferred to the CLI or explicit sync calls.

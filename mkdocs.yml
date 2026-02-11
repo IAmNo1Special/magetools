@@ -9,11 +9,9 @@ theme:
   features:
     - content.code.annotate
     - content.code.copy
+    - content.code.select
     - content.tooltips
-    - navigation.expand
-    - navigation.footer
     - navigation.indexes
-    - navigation.instant
     - navigation.sections
     - navigation.tabs
     - navigation.tabs.sticky
@@ -23,24 +21,34 @@ theme:
     - search.share
     - search.suggest
     - toc.follow
-    - toc.integrate
   palette:
-    # Default to Dark Mode (Super Dark/Slate)
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: deep purple
-      accent: deep purple
+      accent: light blue
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: deep purple
-      accent: deep purple
+      accent: light blue
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
+  font:
+    text: Inter
+    code: Fira Code
+  icon:
+    logo: material/wizard-hat
+  favicon: assets/favicon.png
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/IAmNo1Special/magetools
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/magetools/
 
 plugins:
   - search
@@ -85,7 +93,7 @@ nav:
   - User Guide:
       - Getting Started: user_guide/getting_started.md
       - Core Concepts: user_guide/core_concepts.md
-      - Security & Strict Mode: user_guide/security.md
+      - Security & Trust: user_guide/security.md
       - CLI Reference: user_guide/cli.md
       - Best Practices: user_guide/best_practices.md
   - API Reference:
@@ -93,12 +101,5 @@ nav:
       - SpellSync: reference/spellsync.md
       - Adapters: reference/adapters.md
       - Configuration: reference/config.md
-
-copyright: Copyright &copy; 2026 IAmNo1Special
-
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/IAmNo1Special/magetools
-    - icon: fontawesome/brands/python
-      link: https://pypi.org/project/magetools/
+  - Changelog: CHANGELOG.md
+  - Release Notes: RELEASE_NOTES.md

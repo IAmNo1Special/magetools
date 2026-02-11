@@ -38,5 +38,5 @@ Magetools CLI automatically loads configurations from a `.env` file in your proj
 | Variable | Default | Role |
 |----------|---------|------|
 | `GOOGLE_API_KEY` | - | Required for primary embedding/summary providers. |
-| `MAGETOOLS_MODEL` | `gemini-2.0-flash` | The model used for technical auto-summaries. |
+| `MAGETOOLS_MODEL` | `gemini-2.5-flash` | The model used for technical auto-summaries. |
 | `MAGETOOLS_DEBUG` | `false` | Enables verbose trace logging for discovery. |

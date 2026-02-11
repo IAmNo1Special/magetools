@@ -11,10 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Metadata Synchronization**: Automatic generation of `grimorium_summary.md` files for spell collections to provide technical context for agents.
 - **CLI .env Support**: The CLI now automatically loads environment variables from a `.env` file (via `python-dotenv`).
 - **Synchronous Metadata Generation**: Metadata is now synced during the standard `Grimorium._sync_initialize()` path, ensuring consistency with async usage.
+- **ADK Alignment**: Standardized `Grimorium` and `SpellSync` with Google ADK `BaseToolset` protocols, including async `close()` lifecycles and `from_config` stubs.
 
 ### Fixed
 - **Mock Provider Error**: Resolved an `AttributeError` in `MockEmbeddingFunction` by adding the missing `name` attribute required by ChromaDB.
 - **CLI Unicode Support**: Improved CLI robustness on Windows by removing emojis from scan output which caused encoding errors.
+- **IDE YAML Validation**: Resolved "unresolved tag" errors in `mkdocs.yml` via `.vscode/settings.json` custom tag registration.
 
 ## [1.1.0] - 2026-02-10
 
