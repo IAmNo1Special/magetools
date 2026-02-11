@@ -89,7 +89,7 @@ class SpellSync:
         """Restore state and re-initialize unpickleable objects."""
         self.__dict__.update(state)
         # Re-initialize
-        db_path = self.MAGETOOLS_ROOT / self.DB_FOLDER_NAME
+        db_path = self.config.db_path if self.config else Path(self.MAGETOOLS_ROOT / self.DB_FOLDER_NAME)
         self.client = chromadb.PersistentClient(path=str(db_path))
 
     def get_grimorium_collection(self, collection_name: str):
