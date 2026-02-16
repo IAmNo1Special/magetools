@@ -42,8 +42,6 @@ class TestGrimorium:
     async def test_uninitialized_calls_raise(self, grim):
         """Verify all methods raise RuntimeError when uninitialized."""
         with pytest.raises(RuntimeError, match="not initialized"):
-            await grim.list_spells()
-        with pytest.raises(RuntimeError, match="not initialized"):
             await grim.execute_spell("test", {}, MagicMock())
         with pytest.raises(RuntimeError, match="not initialized"):
             grim.discover_grimoriums("query")
@@ -140,32 +138,9 @@ class TestGrimorium:
         assert result["result"] == "merlin"
 
     @pytest.mark.asyncio
-    async def test_list_spells_filtered(self, grim):
-        grim._initialized = True
-        grim.spell_sync.registry = {"spell1": lambda: 1, "spell2": lambda: 2}
-        grim.spell_sync.allowed_collections = ["coll1"]
-
-        mock_coll = MagicMock()
-        mock_coll.get.return_value = {"ids": ["spell1"]}
-        grim.spell_sync.vector_store.get_collection.return_value = mock_coll
-
-        result = await grim.list_spells()
-        assert result["spells"] == ["spell1"]
-
-    @pytest.mark.asyncio
-    async def test_list_spells_error_handling(self, grim):
-        grim._initialized = True
-        grim.spell_sync.registry = {"spell1": lambda: 1}
-        grim.spell_sync.allowed_collections = ["coll1"]
-        grim.spell_sync.vector_store.get_collection.side_effect = Exception("db fail")
-
-        result = await grim.list_spells()
-        assert result["spells"] == []  # Graceful degradation
-
-    @pytest.mark.asyncio
     async def test_get_tools(self, grim):
         tools = await grim.get_tools()
-        assert len(tools) == 4
+        assert len(tools) == 3
         from google.adk.tools import BaseTool
 
         assert all(isinstance(t, BaseTool) for t in tools)
@@ -216,14 +191,6 @@ class TestGrimorium:
         )
         res = grim.discover_spells("coll1", "q")
         assert res["spells"] == {}
-
-    @pytest.mark.asyncio
-    async def test_list_spells_no_filtering(self, grim):
-        grim._initialized = True
-        grim.spell_sync.registry = {"s1": lambda: 1}
-        grim.spell_sync.allowed_collections = None
-        res = await grim.list_spells()
-        assert "s1" in res["spells"]
 
     def test_usage_guide(self, grim):
         assert "USAGE GUIDE" in grim.usage_guide.upper()

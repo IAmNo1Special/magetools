@@ -106,12 +106,11 @@ root_agent = LlmAgent(
 
 ### Agent Discovery Flow
 
-A Magetools Grimorium exposes 4 tools to your agent:
+A Magetools Grimorium exposes 3 tools to your agent:
 
 1. `discover_grimoriums(query)` – Search for a grimorium using a query
 2. `discover_spells(grimorium_id, query)` – Search for a spell within a grimorium
 3. `execute_spell(spell_name, arguments)` – Run a spell
-4. `list_spells()` – List the names of all available spells from all linked grimoriums(may remove this soon...)
 
 **Example:**
 

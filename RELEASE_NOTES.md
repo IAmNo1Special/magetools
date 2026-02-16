@@ -27,7 +27,6 @@ The Magetools CLI has received several usability upgrades:
 - **Windows Robustness**: Fixed encoding issues and removed problematic emojis to ensure a smooth experience on Windows terminals.
 
 ## 🛠️ Highlights from v1.1.0
-- **Secure Spell Listing**: The new `list_spells` method allows agents to see available tools while respecting your `allowed_collections` security boundaries.
 - **Enhanced Type Hinting**: Improved codebase robustness with comprehensive modern type hints.
 
 ## 📦 Getting Started with v1.2.0

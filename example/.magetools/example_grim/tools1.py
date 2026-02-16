@@ -4,6 +4,7 @@ from magetools import spell
 
 from ..example_book.tools2 import user_name
 
+
 @spell
 async def get_user_location() -> Dict[str, Any]:
     """Gets the user's current city and country.
