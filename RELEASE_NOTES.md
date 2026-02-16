@@ -1,8 +1,8 @@
-# Release Notes - Magetools v1.2.0
+# Release Notes - Magetools v1.3.0
 
-We are excited to announce the **v1.2.0** release of **Magetools**! This version represents a major milestone in security, performance, and developer accessibility, making Magetools the most robust solution for hierarchical agentic tool discovery.
+We are excited to announce the **v1.3.0** release of **Magetools**! This version represents a major milestone in security, performance, and developer accessibility, making Magetools the most robust solution for hierarchical agentic tool discovery.
 
-## 🌟 What's New in v1.2.0
+## 🌟 What's New in v1.3.0
 
 ### 🧠 Automatic Metadata Synchronization
 Magetools now automatically generates `grimorium_summary.md` files for your tool collections. These high-density technical summaries are powered by Google Gemini and provide agents with the critical context needed to choose the right tools without reading every line of code.
@@ -29,7 +29,7 @@ The Magetools CLI has received several usability upgrades:
 ## 🛠️ Highlights from v1.1.0
 - **Enhanced Type Hinting**: Improved codebase robustness with comprehensive modern type hints.
 
-## 📦 Getting Started with v1.2.0
+## 📦 Getting Started with v1.3.0
 Upgrade your project and rebuild your tool metadata:
 ```bash
 # Update to latest version
