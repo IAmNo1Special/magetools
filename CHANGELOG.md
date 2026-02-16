@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Synchronous Metadata Generation**: Metadata is now synced during the standard `Grimorium._sync_initialize()` path, ensuring consistency with async usage.
 - **ADK Alignment**: Standardized `Grimorium` and `SpellSync` with Google ADK `BaseToolset` protocols, including async `close()` lifecycles and `from_config` stubs.
 
+### Removed
+- **Spells Listing**: Removed the `list_spells` method to simplify the toolset and align with the hierarchical discovery loop.
+
 ### Changed
 - **Consolidated Configuration**: Moved all coverage settings from `.coveragerc` into `pyproject.toml` for a cleaner project root.
 - **Improved Test Suite**: Resolved all `PytestWarning` entries and cleaned up lint warnings in tests.
