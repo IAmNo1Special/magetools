@@ -1,8 +1,13 @@
 """Custom exceptions for the Magetools system."""
 
 
-class MagetoolsError(Exception):
-    """Base exception for all Magetools-related errors."""
+class MagetoolsError(RuntimeError):
+    """Base exception for all Magetools-related errors.
+
+    Subclasses RuntimeError so existing ``except RuntimeError`` handlers
+    keep catching library failures, while callers can also catch the
+    library's own base type.
+    """
 
     pass
 

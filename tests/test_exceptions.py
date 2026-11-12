@@ -44,6 +44,17 @@ class TestExceptionHierarchy:
 class TestExceptionRaising:
     """Tests for raising exceptions."""
 
+    def test_magetools_error_is_runtime_error(self):
+        """MagetoolsError stays catchable as RuntimeError.
+
+        The base error subclasses RuntimeError so existing handlers keep
+        working while callers can also catch the library's own base type.
+        """
+        assert issubclass(MagetoolsError, RuntimeError)
+
+        with pytest.raises(RuntimeError):
+            raise MagetoolsError("test")
+
     def test_magetools_error_message(self):
         """Should preserve error message."""
         with pytest.raises(MagetoolsError) as exc_info:

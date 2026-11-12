@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
 import pytest
 
+from magetools.exceptions import MagetoolsError
 from magetools.grimorium import Grimorium, ToolContext
 
 
@@ -47,6 +48,12 @@ class TestGrimorium:
             grim.discover_grimoriums("query")
         with pytest.raises(RuntimeError, match="not initialized"):
             grim.discover_spells("coll_id", "query")
+
+    @pytest.mark.asyncio
+    async def test_uninitialized_raises_magetools_error(self, grim):
+        """The not-initialized failure must be catchable as MagetoolsError."""
+        with pytest.raises(MagetoolsError, match="not initialized"):
+            grim.discover_grimoriums("query")
 
     @pytest.mark.asyncio
     async def test_execute_spell_success(self, grim):

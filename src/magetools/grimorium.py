@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from google.adk.tools.tool_configs import ToolArgsConfig
 
 from .config import MageToolsConfig, get_config
+from .exceptions import MagetoolsError
 from .prompts import grimorium_usage_guide
 from .spellsync import SpellSync, discover_and_load_spells
 
@@ -175,7 +176,7 @@ class Grimorium(BaseToolset):
     def _check_initialized(self) -> None:
         """Raise error if not initialized."""
         if not self._initialized:
-            raise RuntimeError(
+            raise MagetoolsError(
                 "Grimorium not initialized. Call 'await grimorium.initialize()' first, "
                 "or use auto_initialize=True (default) in constructor."
             )
